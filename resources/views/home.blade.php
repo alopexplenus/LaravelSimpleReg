@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">
+                                    {{ Auth::user()->email }}
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +15,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <a class="btn btn-primary" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
 
-                    You are logged in!
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
                 </div>
             </div>
         </div>
