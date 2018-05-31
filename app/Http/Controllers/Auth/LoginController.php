@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Mail\VerificationMail;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -109,6 +110,8 @@ class LoginController extends Controller
 
         $this->guard()->login($user);
 
+        \Mail::to($user)->send(new VerificationMail($user->verification_code));
+
         return redirect($this->redirectPath());
     }
 
@@ -139,6 +142,30 @@ class LoginController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
+    }
+
+    /**
+     * verify account when user follows link from email
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     */
+    public function verify(Request $request, $verification_code)
+    {
+                if(!$verification_code){
+                        throw new VerificationFailedException;
+                }
+                $user = User::whereVerification_code($verification_code)->first();
+                if(!$user){
+                        throw new VerificationFailedException;
+                }
+
+                $user->verification_state = 1;
+                $user->save();
+
+                $this->guard()->login($user);
+
+                return redirect($this->redirectPath());
     }
 
 }
