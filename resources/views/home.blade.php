@@ -7,6 +7,9 @@
             <div class="card">
                 <div class="card-header">
                                     {{ Auth::user()->email }}
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                    verification state: 
+                                    {{ Auth::user()->getVerificationState() }}
                 </div>
 
                 <div class="card-body">

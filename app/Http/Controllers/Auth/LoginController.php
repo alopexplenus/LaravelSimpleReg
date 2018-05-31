@@ -123,6 +123,7 @@ class LoginController extends Controller
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'verification_code' => bin2hex(random_bytes(10)),
         ]);
     }
 
