@@ -16,4 +16,4 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/verification/{verification_code}', 'Auth\LoginController@verify');
+Route::get('/verification/{verification_code}', 'VerificationController@verify');

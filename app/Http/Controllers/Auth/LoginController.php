@@ -144,28 +144,4 @@ class LoginController extends Controller
         ]);
     }
 
-    /**
-     * verify account when user follows link from email
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
-     */
-    public function verify(Request $request, $verification_code)
-    {
-                if(!$verification_code){
-                        throw new VerificationFailedException;
-                }
-                $user = User::whereVerification_code($verification_code)->first();
-                if(!$user){
-                        throw new VerificationFailedException;
-                }
-
-                $user->verification_state = 1;
-                $user->save();
-
-                $this->guard()->login($user);
-
-                return redirect($this->redirectPath());
-    }
-
 }
