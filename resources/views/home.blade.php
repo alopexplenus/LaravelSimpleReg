@@ -6,6 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
+                                    User id: {{ Auth::user()->id }}
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                     {{ Auth::user()->email }}
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                     verification state: 
