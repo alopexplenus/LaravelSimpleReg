@@ -68,7 +68,10 @@ class LoginController extends Controller
         }
 
         // try to treat it as a registration attempt
-        $this->register($request);
+        $user = User::whereEmail($request->input('email'))->first();
+        if(!$user){
+            $this->register($request);
+        }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
@@ -106,7 +109,6 @@ class LoginController extends Controller
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
-
 
         $this->guard()->login($user);
 
